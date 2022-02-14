@@ -36,9 +36,14 @@ class AdjustedHtmlView extends StatefulWidget {
 
 class _AdjustedHtmlViewState extends State<AdjustedHtmlView> {
   final viewType = "div_" + const Uuid().v4();
+
+  /// 0だと描画処理が走らないようなので正の数を指定している
   double htmlHeight = 10;
   final String rootId = "adjusted_html_view_div";
   Timer? initTimer;
+  final int initTimerIntervalms = 200;
+  final int initTimerTimeoutms = 4000;
+  int timerLimitCount = 0;
   NodeValidator validator = NodeValidatorBuilder.common()
     ..allowInlineStyles()
     ..allowElement("a", attributes: ["*"])
@@ -48,16 +53,17 @@ class _AdjustedHtmlViewState extends State<AdjustedHtmlView> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    initTimer = Timer.periodic(const Duration(milliseconds: 200), (timer) {
+    initTimer =
+        Timer.periodic(Duration(milliseconds: initTimerIntervalms), (timer) {
       final root = (window.document.getElementById(rootId) as DivElement?);
-      if (root != null && root.clientHeight != 0) {
-        print(root.clientHeight);
+      if (root != null && root.clientHeight > htmlHeight) {
         setState(() {
           htmlHeight = root.clientHeight.toDouble();
         });
+      }
+      timerLimitCount++;
+      if (timerLimitCount > initTimerTimeoutms / initTimerIntervalms) {
         timer.cancel();
-      } else {
-        print("wait");
       }
     });
   }
