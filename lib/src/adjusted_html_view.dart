@@ -7,11 +7,28 @@ import 'dart:html';
 
 import 'package:uuid/uuid.dart';
 
+/// A HTML viewer that can adjust html's display size.
 class AdjustedHtmlView extends StatefulWidget {
+  /// The HTML content to display.
+  /// This will be passed into the [DivElement.innerHtml] setter.
+  /// So, it should be a valid HTML string.
+  /// This doesn't support perfect HTML that includes head, body, etc.
   final String htmlText;
+
+  /// Whether you want to use the default style sheet.
+  /// If you want to use your own style sheet,
+  /// you can set this to false and provide your own style sheet.
+  /// In the case of using your own style sheet,
+  /// you need to prepare style sheets in [index.html].
   final bool useDefaultStyle;
+
+  /// Classes to add to the Outer [DivElement].
+  final List<String> customClasses;
   const AdjustedHtmlView(
-      {Key? key, required this.htmlText, this.useDefaultStyle = true})
+      {Key? key,
+      required this.htmlText,
+      this.useDefaultStyle = true,
+      this.customClasses = const []})
       : super(key: key);
   @override
   State<StatefulWidget> createState() => _AdjustedHtmlViewState();
@@ -58,6 +75,7 @@ class _AdjustedHtmlViewState extends State<AdjustedHtmlView> {
     ui.platformViewRegistry.registerViewFactory(viewType, (viewId) {
       final element = DivElement();
       element.id = rootId;
+      element.classes.addAll(widget.customClasses);
       element.setInnerHtml(
           (widget.useDefaultStyle ? _getDefaultStyle(textTheme, rootId) : "") +
               widget.htmlText,
