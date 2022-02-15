@@ -11,28 +11,52 @@ and the Flutter guide for
 [developing packages and plugins](https://flutter.dev/developing-packages). 
 -->
 
-WEB ONLY
+**THIS PACKAGE WORKS ONLY ON THE WEB.**
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+This package provides a more natural HTML display with Flutter on the Web. 
+Because it is displayed in a Platform View instead of an iframe, you get the following benefits:
 
-## Getting started
+- Display according to the height of HTML display
+  - ex) possible to mix HTML in Column
+- Text selection
+- Natural scrolling
+- Custom CSS
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+Try it on: https://organic-nailer.github.io/adjusted_html_view_web/#/
+
+### This package is for
+
+- Developers that are using Flutter on the Web
+- want to use HTML for parts that cannot be expressed by widgets
+- want to display Rich Text passed by CMS etc
+
+### This package is **NOT** for
+
+- Developers that are using Flutter on Mobile or Desktop
+- want to display specific sites
+- want to display contents with WebView
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
+Use `AdjustedHtmlView` with passing richText string to `htmlText`.
+You can select the security level by `HtmlValidator`.
 
 ```dart
-const like = 'sample';
+const sampleRichText = """
+<h1 id="hf19cd910e2">Heading 1</h1>
+<p>Flutter is an open-source UI software development kit created by Google.</p>
+""";
+
+AdjustedHtmlView(
+    htmlText: sampleRichText,
+    htmlValidator: HtmlValidator.loose(),
+)
 ```
 
 ## Additional information
 
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.
+### Impossible now
+
+- Placing multiple `AdjustedHtmlView` on one screen
