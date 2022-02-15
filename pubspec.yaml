@@ -1,10 +1,10 @@
 name: adjusted_html_view_web
-description: Display HtmlView with adjusted height on the Web.
-version: 0.0.1
+description: This package provides to the HtmlView with adjusted height and natural displaying on the Web.
+version: 0.0.2
 homepage: https://github.com/organic-nailer/adjusted_html_view_web
 
 environment:
-  sdk: ">=2.16.1 <3.0.0"
+  sdk: ">=2.16.0 <3.0.0"
   flutter: ">=1.20.0"
 
 dependencies:
