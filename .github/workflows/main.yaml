@@ -1,0 +1,36 @@
+name: github pages
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+
+    - name: search flutter cache
+      uses: actions/cache@v2
+      with:
+        path: /opt/hostedtoolcache/flutter
+        key: ${{ runner.os }}-flutter-install-cache-stable
+    - uses: subosito/flutter-action@v2
+      with:
+        channel: stable
+
+    - name: Install
+      run: flutter pub get
+      working-directory: ./example
+
+    - name: Build
+      run: flutter build web
+      working-directory: ./example
+
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v2.8.0
+      env:
+        ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+        PUBLISH_BRANCH: gh-pages
+        PUBLISH_DIR: ./example/build/web
