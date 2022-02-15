@@ -22,12 +22,17 @@ class AdjustedHtmlView extends StatefulWidget {
   /// you need to prepare style sheets in [index.html].
   final bool useDefaultStyle;
 
+  /// Control which HTML tags are allowed.
+  /// If it is null, [HtmlValidator.loose()] will be used.
+  final HtmlValidator? htmlValidator;
+
   /// Classes to add to the Outer [DivElement].
   final List<String> customClasses;
   const AdjustedHtmlView(
       {Key? key,
       required this.htmlText,
       this.useDefaultStyle = true,
+      this.htmlValidator,
       this.customClasses = const []})
       : super(key: key);
   @override
@@ -44,11 +49,6 @@ class _AdjustedHtmlViewState extends State<AdjustedHtmlView> {
   final int initTimerIntervalms = 200;
   final int initTimerTimeoutms = 4000;
   int timerLimitCount = 0;
-  NodeValidator validator = NodeValidatorBuilder.common()
-    ..allowInlineStyles()
-    ..allowElement("a", attributes: ["*"])
-    ..allowElement("img", attributes: ["*"])
-    ..allowElement("style", attributes: ["*"]);
 
   @override
   void didChangeDependencies() {
@@ -85,7 +85,8 @@ class _AdjustedHtmlViewState extends State<AdjustedHtmlView> {
       element.setInnerHtml(
           (widget.useDefaultStyle ? _getDefaultStyle(textTheme, rootId) : "") +
               widget.htmlText,
-          validator: validator);
+          validator: widget.htmlValidator?.validator ??
+              HtmlValidator.loose().validator);
       element.style.height = "max-content";
       element.style.overflow = "hidden";
       element.style.userSelect = "text";
@@ -125,4 +126,29 @@ String? _colorToHex(Color? color) {
 
   /// CSSはRGBAなので順番を入れ替える
   return "#" + argb.substring(2, argb.length) + argb.substring(0, 2);
+}
+
+/// NodeValidator wrapper.
+class HtmlValidator {
+  final NodeValidator validator;
+
+  HtmlValidator.loose()
+      : validator = NodeValidatorBuilder.common()
+          ..allowInlineStyles()
+          ..allowElement("a", attributes: ["*"])
+          ..allowElement("img", attributes: ["*"])
+          ..allowElement("style", attributes: ["*"]);
+
+  /// Allow iframe and script for embedding.
+  /// Don't use this for HTML retrieved from the network.
+  HtmlValidator.unsafe()
+      : validator = NodeValidatorBuilder.common()
+          ..allowInlineStyles()
+          ..allowElement("a", attributes: ["*"])
+          ..allowElement("img", attributes: ["*"])
+          ..allowElement("style", attributes: ["*"])
+          ..allowElement("iframe", attributes: ["*"])
+          ..allowElement("script", attributes: ["*"]);
+
+  HtmlValidator.custom(this.validator);
 }

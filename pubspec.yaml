@@ -11,6 +11,10 @@ dependencies:
   flutter:
     sdk: flutter
   uuid: ^3.0.5
+  flutter_web_plugins:
+    sdk: flutter
+  plugin_platform_interface: ^2.1.2
+    
 
 dev_dependencies:
   flutter_test:
@@ -21,4 +25,5 @@ flutter:
   plugin:
     platforms:
       web:
+        pluginClass: AdjustedHtmlViewPlugin
         fileName: adjusted_html_view_web.dart
