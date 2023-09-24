@@ -11,6 +11,10 @@ and the Flutter guide for
 [developing packages and plugins](https://flutter.dev/developing-packages). 
 -->
 
+# adjusted_html_view_web
+
+[![pub package](https://img.shields.io/pub/v/adjusted_html_view_web.svg)](https://pub.dev/packages/adjusted_html_view_web)
+
 **THIS PACKAGE WORKS ONLY ON THE WEB.**
 
 ## Features
