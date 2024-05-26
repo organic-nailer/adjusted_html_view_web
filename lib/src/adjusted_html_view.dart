@@ -40,7 +40,7 @@ class AdjustedHtmlView extends StatefulWidget {
 }
 
 class _AdjustedHtmlViewState extends State<AdjustedHtmlView> {
-  final viewType = "div_" + const Uuid().v4();
+  final viewType = "div_${const Uuid().v4()}";
 
   /// 0だと描画処理が走らないようなので正の数を指定している
   double htmlHeight = 10;
@@ -112,7 +112,7 @@ String _getDefaultStyle(TextTheme textTheme, String rootId) {
 #$rootId {
   font-family: 'Roboto', sans-serif;
   line-height: 1.5;
-  color: ${_colorToHex(textTheme.bodyText1?.color) ?? "#000000"};
+  color: ${_colorToHex(textTheme.bodyLarge?.color) ?? "#000000"};
 }
 </style>
 """;
@@ -125,7 +125,7 @@ String? _colorToHex(Color? color) {
   final argb = color.value.toRadixString(16).padLeft(8, '0');
 
   /// CSSはRGBAなので順番を入れ替える
-  return "#" + argb.substring(2, argb.length) + argb.substring(0, 2);
+  return "#${argb.substring(2, argb.length)}${argb.substring(0, 2)}";
 }
 
 /// NodeValidator wrapper.
