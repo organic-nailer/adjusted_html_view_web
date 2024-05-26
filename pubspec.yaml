@@ -1,6 +1,6 @@
 name: adjusted_html_view_web
 description: This package provides to the HtmlView with adjusted height and natural displaying on the Web.
-version: 0.0.3
+version: 0.1.0
 homepage: https://github.com/organic-nailer/adjusted_html_view_web
 
 environment:

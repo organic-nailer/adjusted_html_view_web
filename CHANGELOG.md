@@ -1,3 +1,8 @@
+## 0.1.0
+
+- Update pubspec.yaml
+- Support Flutter 3.22
+
 ## 0.0.3
 
 - Update pubspec.yaml
